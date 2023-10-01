@@ -1,0 +1,1 @@
+alter table consultas add column data bigint after paciente_id;
