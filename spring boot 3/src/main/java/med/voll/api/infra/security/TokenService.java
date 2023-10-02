@@ -31,7 +31,7 @@ public class TokenService {
     }
 
     private Instant generarFehcaExpiracion() {
-        return LocalDateTime.now().plusHours(23).toInstant(ZoneOffset.of("-05:00"));
+        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-05:00"));
     }
 
     public String getSubject(String token) {

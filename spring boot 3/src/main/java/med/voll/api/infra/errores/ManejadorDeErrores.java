@@ -1,6 +1,7 @@
 package med.voll.api.infra.errores;
 
 import jakarta.persistence.*;
+import jakarta.validation.*;
 import org.springframework.http.*;
 import org.springframework.validation.*;
 import org.springframework.web.bind.*;
@@ -18,6 +19,16 @@ public class ManejadorDeErrores {
     public ResponseEntity tratarError400(MethodArgumentNotValidException e){
         var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
         return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler(ValidacionDeIntegridad.class)
+    public ResponseEntity handlerValidacionesIntegridad(Exception e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity handlerValidacionesNegocio(Exception e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     private record DatosErrorValidacion(String campo, String error){

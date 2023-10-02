@@ -22,13 +22,13 @@ public class Paciente {
     private String email;
     private String documento;
     private String telefono;
-    private boolean dadoDeAlta;
+    private boolean activo;
 
     @Embedded
     private Direccion direccion;
 
     public Paciente(DatosRegistroPaciente datosRegistroPaciente){
-        this.dadoDeAlta = false;
+        this.activo = true;
         this.nombre = datosRegistroPaciente.nombre();
         this.email = datosRegistroPaciente.email();
         this.telefono = datosRegistroPaciente.telefono();
@@ -55,7 +55,7 @@ public class Paciente {
     }
 
     public void desactivarPaciente() {
-            this.dadoDeAlta = true;
+            this.activo = true;
     }
 
 

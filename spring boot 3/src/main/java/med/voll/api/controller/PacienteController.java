@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.security.*;
 import jakarta.transaction.*;
 import jakarta.validation.*;
 import med.voll.api.domain.direccion.*;
@@ -15,6 +16,7 @@ import java.net.*;
 
 @RestController
 @RequestMapping("/pacientes")
+@SecurityRequirement(name = "bearer-key")
 public class PacienteController {
 
 
@@ -35,13 +37,12 @@ public class PacienteController {
         return ResponseEntity.created(url).body(datosRespuestaPaciente);
 
     }
-
-    //TODO implement the rest of the paciente CRUD
+    
 
     @GetMapping
     public ResponseEntity<Page<DatosListadoPaciente>> listarPacientes(@PageableDefault(page = 0, size = 15, sort = {"nombre"}) Pageable paginacion) {
 //        return pacienteRepository.findAll(paginacion).map(DatosListadoPaciente::new);
-        return ResponseEntity.ok(pacienteRepository.findByDadoDeAltaFalse(paginacion).map(DatosListadoPaciente::new));
+        return ResponseEntity.ok(pacienteRepository.findByActivoTrue(paginacion).map(DatosListadoPaciente::new));
     }
 
     @PutMapping

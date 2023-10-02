@@ -1,0 +1,1 @@
+ALTER TABLE pacientes RENAME COLUMN dado_de_alta TO activo;

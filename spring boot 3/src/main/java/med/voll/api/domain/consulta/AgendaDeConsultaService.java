@@ -22,7 +22,7 @@ public class AgendaDeConsultaService {
     @Autowired
     List<ValidadorDeConsultas> validadores;
 
-    public void agenda(DatosAgendarConsulta datos) {
+    public DatosDetalleConsulta agenda(DatosAgendarConsulta datos) {
 
         if (!pacienteRepository.findById(datos.idPaciente()).isPresent()) {
             throw new ValidacionDeIntegridad("este id de paciente no fue encontrado");
@@ -37,8 +37,14 @@ public class AgendaDeConsultaService {
         var paciente = pacienteRepository.findById(datos.idPaciente()).get();
         var medico = seleccionarMedico(datos);
 
+        if(medico == null){
+            throw new ValidacionDeIntegridad("No hay medicos disponibles");
+        }
+
         var consulta = new Consulta(null, medico, paciente, datos.fecha());
         consultaRepository.save(consulta);
+
+        return new DatosDetalleConsulta(consulta);
     }
 
     private Medico seleccionarMedico(DatosAgendarConsulta datos) {
